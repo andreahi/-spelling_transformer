@@ -15,10 +15,10 @@ from tensorflow.python import keras
 from tensorflow.python.data import Dataset
 from tensorflow_datasets.core.features.text import TokenTextEncoder
 
-dataset_x = tf.data.TextLineDataset("data/texts_noisy.txt")
 #dataset_x = dataset_x.map(lambda token: token.numpy().decode("utf-8"))
 
-dataset_y = tf.data.TextLineDataset("data/texts.txt")
+dataset_x = tf.data.TextLineDataset("data/texts_noisy.txt").take(10000)
+dataset_y = tf.data.TextLineDataset("data/texts.txt").take(10000)
 dataset = Dataset.zip((dataset_x, dataset_y))
 
 
