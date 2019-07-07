@@ -34,7 +34,7 @@ vocab = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
 
 tokenizer_pt = keras.preprocessing.text.Tokenizer(char_level=True)
 
-tokenizer_en = keras.preprocessing.text.Tokenizer(char_level=False)
+tokenizer_en = keras.preprocessing.text.Tokenizer(char_level=False, num_words=300000)
 
 
 if os.path.isfile('tokenizer_pt.pickle'):
