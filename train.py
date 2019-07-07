@@ -57,6 +57,7 @@ with open('tokenizer_pt.pickle', 'wb') as handle:
 with open('tokenizer_en.pickle', 'wb') as handle:
     pickle.dump(tokenizer_en, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+EN_MAX_WORDS = 300000
 tokenizer_en.num_words = 300000
 
 print("tokenizer fitted")
@@ -96,7 +97,7 @@ def encode(lang1, lang2):
     lang1 = np.concatenate([[len(tokenizer_pt.index_word)],  sequences1,  [len(tokenizer_pt.index_word) + 1]])
 
     sequences2 = np.reshape(tokenizer_en.texts_to_sequences([lang2.numpy().decode("utf-8")]), -1)
-    lang2 = np.concatenate([[len(tokenizer_en.index_word)], sequences2, [len(tokenizer_en.index_word) + 1]])
+    lang2 = np.concatenate([[EN_MAX_WORDS], sequences2, [EN_MAX_WORDS + 1]])
     #print(len(lang1))
     #print(lang2)
     return lang1, lang2
@@ -532,7 +533,7 @@ dff = 512
 num_heads = 8
 
 input_vocab_size = len(tokenizer_pt.index_word) + 2
-target_vocab_size = len(tokenizer_en.index_word) + 2
+target_vocab_size = EN_MAX_WORDS + 2
 dropout_rate = 0.1
 
 
@@ -690,7 +691,7 @@ def evaluate(inp_sentence):
 
     # as the target is english, the first word to the transformer should be the
     # english start token.
-    decoder_input = [len(tokenizer_en.index_word)]
+    decoder_input = [EN_MAX_WORDS]
     output = tf.expand_dims(decoder_input, 0)
 
     for i in range(MAX_LENGTH):
@@ -711,7 +712,7 @@ def evaluate(inp_sentence):
         predicted_id = tf.cast(tf.argmax(predictions, axis=-1), tf.int32)
 
         # return the result if the predicted_id is equal to the end token
-        if tf.equal(predicted_id, len(tokenizer_en.index_word)+1):
+        if tf.equal(predicted_id, EN_MAX_WORDS+1):
             return tf.squeeze(output, axis=0), attention_weights
 
         # concatentate the predicted_id to the output which is given to the decoder
@@ -746,7 +747,7 @@ def plot_attention_weights(attention, sentence, result, layer):
             fontdict=fontdict, rotation=90)
 
         ax.set_yticklabels([tokenizer_en.decode([i]) for i in result
-                            if i < len(tokenizer_en.index_word)],
+                            if i < EN_MAX_WORDS],
                            fontdict=fontdict)
 
         ax.set_xlabel('Head {}'.format(head+1))
@@ -759,7 +760,7 @@ def translate(sentence, plot=''):
     result, attention_weights = evaluate(sentence)
 
     predicted_sentence = tokenizer_en.sequences_to_texts([[i.numpy() for i in result
-                                                           if i < len(tokenizer_en.index_word)]])
+                                                           if i < EN_MAX_WORDS]])
 
     print('Input: {}'.format(sentence))
     print('Predicted translation: {}'.format(predicted_sentence))
