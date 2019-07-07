@@ -57,6 +57,8 @@ with open('tokenizer_pt.pickle', 'wb') as handle:
 with open('tokenizer_en.pickle', 'wb') as handle:
     pickle.dump(tokenizer_en, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+tokenizer_en.num_words = 300000
+
 print("tokenizer fitted")
 print("len(tokenizer_en.index_word): " + str(len(tokenizer_en.index_word)))
 print("len(tokenizer_pt.index_word): " + str(len(tokenizer_pt.index_word)))
