@@ -623,8 +623,8 @@ for epoch in range(EPOCHS):
     train_accuracy.reset_states()
 
     # inp -> portuguese, tar -> english
-    for e in train_dataset:
-        print(e)
+    #for e in train_dataset:
+    #    print(e)
 
     for (batch, (inp, tar)) in enumerate(train_dataset):
         train_step(inp, tar)
