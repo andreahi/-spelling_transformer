@@ -1,11 +1,14 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import os
+
 import tensorflow_datasets as tfds
 import tensorflow as tf
 
 import time
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 
 
 #examples, metadata = tfds.load('ted_hrlr_translate/pt_to_en', with_info=True,
@@ -30,12 +33,33 @@ vocab = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'æ', 'ø', 'å', ' ']
 
 tokenizer_pt = keras.preprocessing.text.Tokenizer(char_level=True)
-tokenizer_pt.fit_on_texts([en[0].numpy().decode("utf-8") for en in dataset])
 
 tokenizer_en = keras.preprocessing.text.Tokenizer(char_level=False)
-tokenizer_en.fit_on_texts([en[1].numpy().decode("utf-8") for en in dataset])
+
+
+if os.path.isfile('tokenizer_pt.pickle'):
+    with open('tokenizer_pt.pickle', 'rb') as handle:
+        tokenizer_pt = pickle.load(handle)
+else:
+    tokenizer_pt.fit_on_texts([en[0].numpy().decode("utf-8") for en in dataset])
+
+
+if os.path.isfile('tokenizer_en.pickle'):
+    with open('tokenizer_en.pickle', 'rb') as handle:
+        tokenizer_en = pickle.load(handle)
+else:
+    tokenizer_en.fit_on_texts([en[1].numpy().decode("utf-8") for en in dataset])
+
+
+# saving
+with open('tokenizer_pt.pickle', 'wb') as handle:
+    pickle.dump(tokenizer_pt, handle, protocol=pickle.HIGHEST_PROTOCOL)
+with open('tokenizer_en.pickle', 'wb') as handle:
+    pickle.dump(tokenizer_en, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 print("tokenizer fitted")
+print("len(tokenizer_en.index_word): " + str(len(tokenizer_en.index_word)))
+print("len(tokenizer_pt.index_word): " + str(len(tokenizer_pt.index_word)))
 #encoder = TokenTextEncoder(vocab, lowercase=True)
 
 
@@ -615,6 +639,7 @@ def train_step(inp, tar):
     train_loss(loss)
     train_accuracy(tar_real, predictions)
 
+model_printed = False
 
 for epoch in range(EPOCHS):
     start = time.time()
@@ -625,6 +650,7 @@ for epoch in range(EPOCHS):
     # inp -> portuguese, tar -> english
     #for e in train_dataset:
     #    print(e)
+
 
     for (batch, (inp, tar)) in enumerate(train_dataset):
         train_step(inp, tar)
@@ -643,6 +669,9 @@ for epoch in range(EPOCHS):
                                                          train_accuracy.result()))
 
     print ('Time taken for 1 epoch: {} secs\n'.format(time.time() - start))
+    if not model_printed:
+        transformer.summary()
+        model_printed = True
 
 
 
