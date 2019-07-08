@@ -398,13 +398,6 @@ class DecoderLayer(tf.keras.layers.Layer):
 
         return out3, attn_weights_block1, attn_weights_block2
 
-sample_decoder_layer = DecoderLayer(512, 8, 2048)
-
-sample_decoder_layer_output, _, _ = sample_decoder_layer(
-    tf.random.uniform((64, 50, 512)), sample_encoder_layer_output,
-    False, None, None)
-
-sample_decoder_layer_output.shape  # (batch_size, target_seq_len, d_model)
 
 
 class Encoder(tf.keras.layers.Layer):
