@@ -661,6 +661,9 @@ for epoch in range(EPOCHS):
         if batch % 500 == 0:
             print ('Epoch {} Batch {} Loss {:.4f} Accuracy {:.4f}'.format(
                 epoch + 1, batch, train_loss.result(), train_accuracy.result()))
+            if not model_printed:
+                transformer.summary()
+                model_printed = True
 
     if (epoch + 1) % 5 == 0:
         ckpt_save_path = ckpt_manager.save()
@@ -672,9 +675,7 @@ for epoch in range(EPOCHS):
                                                          train_accuracy.result()))
 
     print ('Time taken for 1 epoch: {} secs\n'.format(time.time() - start))
-    if not model_printed:
-        transformer.summary()
-        model_printed = True
+
 
 
 
