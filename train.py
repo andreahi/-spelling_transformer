@@ -28,9 +28,8 @@ dataset = Dataset.zip((dataset_x, dataset_y))
 
 print("data loaded")
 
-
 vocab = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-           'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'æ', 'ø', 'å', ' ']
+         'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'æ', 'ø', 'å', ' ']
 
 tokenizer_pt = keras.preprocessing.text.Tokenizer(char_level=True)
 
@@ -58,7 +57,6 @@ with open('tokenizer_en.pickle', 'wb') as handle:
     pickle.dump(tokenizer_en, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 EN_MAX_WORDS = 300000
-tokenizer_en.num_words = 300000
 
 print("tokenizer fitted")
 print("len(tokenizer_en.index_word): " + str(len(tokenizer_en.index_word)))
@@ -116,7 +114,7 @@ def tf_encode(pt, en):
 train_dataset = dataset.map(tf_encode)
 train_dataset = train_dataset.filter(filter_max_length)
 # cache the dataset to memory to get a speedup while reading from it.
-train_dataset = train_dataset.cache()
+train_dataset = train_dataset.cache(filename='dataset_cache')
 train_dataset = train_dataset.shuffle(BUFFER_SIZE).padded_batch(
     BATCH_SIZE, padded_shapes=([-1], [-1]))
 train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
