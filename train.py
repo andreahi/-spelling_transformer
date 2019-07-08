@@ -659,16 +659,15 @@ for epoch in range(EPOCHS):
         train_step(inp, tar)
 
         if batch % 500 == 0:
+            ckpt_save_path = ckpt_manager.save()
+
             print ('Epoch {} Batch {} Loss {:.4f} Accuracy {:.4f}'.format(
                 epoch + 1, batch, train_loss.result(), train_accuracy.result()))
             if not model_printed:
                 transformer.summary()
                 model_printed = True
 
-    if (epoch + 1) % 5 == 0:
-        ckpt_save_path = ckpt_manager.save()
-        print ('Saving checkpoint for epoch {} at {}'.format(epoch+1,
-                                                             ckpt_save_path))
+
 
     print ('Epoch {} Loss {:.4f} Accuracy {:.4f}'.format(epoch + 1,
                                                          train_loss.result(),
