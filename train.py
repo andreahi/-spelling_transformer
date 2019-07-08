@@ -20,8 +20,8 @@ from tensorflow_datasets.core.features.text import TokenTextEncoder
 
 #dataset_x = dataset_x.map(lambda token: token.numpy().decode("utf-8"))
 
-dataset_x = tf.data.TextLineDataset("data/texts_noisy.txt")#.take(1000000)
-dataset_y = tf.data.TextLineDataset("data/texts.txt")#.take(1000000)
+dataset_x = tf.data.TextLineDataset("data/texts_noisy.txt").take(10000)
+dataset_y = tf.data.TextLineDataset("data/texts.txt").take(10000)
 dataset = Dataset.zip((dataset_x, dataset_y))
 
 
@@ -150,15 +150,6 @@ def positional_encoding(position, d_model):
 
     return tf.cast(pos_encoding, dtype=tf.float32)
 
-pos_encoding = positional_encoding(50, 512)
-print (pos_encoding.shape)
-
-plt.pcolormesh(pos_encoding[0], cmap='RdBu')
-plt.xlabel('Depth')
-plt.xlim((0, 512))
-plt.ylabel('Position')
-plt.colorbar()
-#plt.show()
 
 
 def create_padding_mask(seq):
@@ -169,8 +160,6 @@ def create_padding_mask(seq):
     return seq[:, tf.newaxis, tf.newaxis, :]  # (batch_size, 1, 1, seq_len)
 
 
-x = tf.constant([[7, 6, 0, 0, 1], [1, 2, 3, 0, 0], [0, 0, 0, 4, 5]])
-create_padding_mask(x)
 
 
 def create_look_ahead_mask(size):
@@ -178,9 +167,6 @@ def create_look_ahead_mask(size):
     return mask  # (seq_len, seq_len)
 
 
-x = tf.random.uniform((1, 3))
-temp = create_look_ahead_mask(x.shape[1])
-temp
 
 
 def scaled_dot_product_attention(q, k, v, mask):
@@ -220,43 +206,6 @@ def scaled_dot_product_attention(q, k, v, mask):
     return output, attention_weights
 
 
-def print_out(q, k, v):
-    temp_out, temp_attn = scaled_dot_product_attention(
-        q, k, v, None)
-    print ('Attention weights are:')
-    print (temp_attn)
-    print ('Output is:')
-    print (temp_out)
-
-np.set_printoptions(suppress=True)
-
-temp_k = tf.constant([[10,0,0],
-                      [0,10,0],
-                      [0,0,10],
-                      [0,0,10]], dtype=tf.float32)  # (4, 3)
-
-temp_v = tf.constant([[   1,0],
-                      [  10,0],
-                      [ 100,5],
-                      [1000,6]], dtype=tf.float32)  # (4, 2)
-
-# This `query` aligns with the second `key`,
-# so the second `value` is returned.
-temp_q = tf.constant([[0, 10, 0]], dtype=tf.float32)  # (1, 3)
-print_out(temp_q, temp_k, temp_v)
-
-# This query aligns with a repeated key (third and fourth),
-# so all associated values get averaged.
-temp_q = tf.constant([[0, 0, 10]], dtype=tf.float32)  # (1, 3)
-print_out(temp_q, temp_k, temp_v)
-
-# This query aligns equally with the first and second key,
-# so their values get averaged.
-temp_q = tf.constant([[10, 10, 0]], dtype=tf.float32)  # (1, 3)
-print_out(temp_q, temp_k, temp_v)
-
-temp_q = tf.constant([[0, 0, 10], [0, 10, 0], [10, 10, 0]], dtype=tf.float32)  # (3, 3)
-print_out(temp_q, temp_k, temp_v)
 
 
 class MultiHeadAttention(tf.keras.layers.Layer):
@@ -308,10 +257,6 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         return output, attention_weights
 
 
-temp_mha = MultiHeadAttention(d_model=512, num_heads=8)
-y = tf.random.uniform((1, 60, 512))  # (batch_size, encoder_sequence, d_model)
-out, attn = temp_mha(y, k=y, q=y, mask=None)
-out.shape, attn.shape
 
 def point_wise_feed_forward_network(d_model, dff):
     return tf.keras.Sequential([
@@ -319,9 +264,6 @@ def point_wise_feed_forward_network(d_model, dff):
         tf.keras.layers.Dense(d_model)  # (batch_size, seq_len, d_model)
     ])
 
-
-sample_ffn = point_wise_feed_forward_network(512, 2048)
-sample_ffn(tf.random.uniform((64, 50, 512))).shape
 
 
 
@@ -350,15 +292,6 @@ class EncoderLayer(tf.keras.layers.Layer):
         out2 = self.layernorm2(out1 + ffn_output)  # (batch_size, input_seq_len, d_model)
 
         return out2
-
-
-
-sample_encoder_layer = EncoderLayer(512, 8, 2048)
-
-sample_encoder_layer_output = sample_encoder_layer(
-    tf.random.uniform((64, 43, 512)), False, None)
-
-sample_encoder_layer_output.shape  # (batch_size, input_seq_len, d_model)
 
 
 class DecoderLayer(tf.keras.layers.Layer):
@@ -502,22 +435,6 @@ class Transformer(tf.keras.Model):
         return final_output, attention_weights
 
 
-'''
-sample_transformer = Transformer(
-    num_layers=2, d_model=512, num_heads=8, dff=2048,
-    input_vocab_size=8500, target_vocab_size=8000)
-
-temp_input = tf.random.uniform((64, 62))
-temp_target = tf.random.uniform((64, 26))
-
-fn_out, _ = sample_transformer(temp_input, temp_target, training=False,
-                               enc_padding_mask=None,
-                               look_ahead_mask=None,
-                               dec_padding_mask=None)
-
-fn_out.shape  # (batch_size, tar_seq_len, target_vocab_size)
-
-'''
 num_layers = 4
 d_model = 128
 dff = 512
@@ -529,7 +446,7 @@ dropout_rate = 0.1
 
 
 class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
-    def __init__(self, d_model, warmup_steps=4000):
+    def __init__(self, d_model, warmup_steps=400):
         super(CustomSchedule, self).__init__()
 
         self.d_model = d_model
@@ -551,9 +468,6 @@ optimizer = tf.keras.optimizers.Adam(learning_rate, beta_1=0.9, beta_2=0.98,
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
 
-plt.plot(temp_learning_rate_schedule(tf.range(40000, dtype=tf.float32)))
-plt.ylabel("Learning Rate")
-plt.xlabel("Train Step")
 
 loss_object = tf.keras.losses.SparseCategoricalCrossentropy(
     from_logits=True, reduction='none')
