@@ -88,7 +88,7 @@ for ts in tokenized_string:
 
 
 BUFFER_SIZE = 20000
-BATCH_SIZE = 128
+BATCH_SIZE = 64
 
 
 def encode(lang1, lang2):
@@ -622,6 +622,7 @@ EPOCHS = 20
 
 
 
+@tf.function
 def train_step(inp, tar):
     tar_inp = tar[:, :-1]
     tar_real = tar[:, 1:]
