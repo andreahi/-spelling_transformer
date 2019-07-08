@@ -33,7 +33,8 @@ vocab = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
 
 tokenizer_pt = keras.preprocessing.text.Tokenizer(char_level=True)
 
-tokenizer_en = keras.preprocessing.text.Tokenizer(char_level=False, num_words=300000)
+tokenizer_en = tfds.features.text.SubwordTextEncoder.build_from_corpus(
+    [en[1].numpy().decode("utf-8") for en in dataset], target_vocab_size=2 ** 13)
 
 
 if os.path.isfile('tokenizer_pt.pickle'):
@@ -43,11 +44,6 @@ else:
     tokenizer_pt.fit_on_texts([en[0].numpy().decode("utf-8") for en in dataset])
 
 
-if os.path.isfile('tokenizer_en.pickle'):
-    with open('tokenizer_en.pickle', 'rb') as handle:
-        tokenizer_en = pickle.load(handle)
-else:
-    tokenizer_en.fit_on_texts([en[1].numpy().decode("utf-8") for en in dataset])
 
 
 # saving
@@ -56,10 +52,10 @@ with open('tokenizer_pt.pickle', 'wb') as handle:
 with open('tokenizer_en.pickle', 'wb') as handle:
     pickle.dump(tokenizer_en, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-EN_MAX_WORDS = 300000
+EN_MAX_WORDS = tokenizer_en.vocab_size
 
 print("tokenizer fitted")
-print("len(tokenizer_en.index_word): " + str(len(tokenizer_en.index_word)))
+print("len(tokenizer_en.index_word): " + str(tokenizer_en.vocab_size))
 print("len(tokenizer_pt.index_word): " + str(len(tokenizer_pt.index_word)))
 #encoder = TokenTextEncoder(vocab, lowercase=True)
 
@@ -71,18 +67,18 @@ print("len(tokenizer_pt.index_word): " + str(len(tokenizer_pt.index_word)))
 #    iter(dataset), target_vocab_size=2**13)
 
 
-sample_string = 'gress på slottet .'
+sample_string = 'slottetgresspåslottet .'
 
-tokenized_string = tokenizer_en.texts_to_sequences([sample_string])
+tokenized_string = tokenizer_en.encode(sample_string)
 print ('Tokenized string is {}'.format(tokenized_string))
 
-original_string = tokenizer_en.sequences_to_texts(tokenized_string)
+original_string = tokenizer_en.decode(tokenized_string)
 print ('The original string: {}'.format(original_string))
 
 #assert original_string == sample_string
 
 for ts in tokenized_string:
-    print ('{} ----> {}'.format(ts, tokenizer_en.sequences_to_texts([ts])))
+    print ('{} ----> {}'.format(ts, tokenizer_en.decode([ts])))
 
 
 BUFFER_SIZE = 20000
@@ -94,7 +90,7 @@ def encode(lang1, lang2):
     sequences1 = np.reshape(tokenizer_pt.texts_to_sequences([lang1.numpy().decode("utf-8")]), -1)
     lang1 = np.concatenate([[len(tokenizer_pt.index_word)],  sequences1,  [len(tokenizer_pt.index_word) + 1]])
 
-    sequences2 = np.reshape(tokenizer_en.texts_to_sequences([lang2.numpy().decode("utf-8")]), -1)
+    sequences2 = np.reshape(tokenizer_en.encode(lang2.numpy().decode("utf-8")), -1)
     lang2 = np.concatenate([[EN_MAX_WORDS], sequences2, [EN_MAX_WORDS + 1]])
     #print(len(lang1))
     #print(lang2)
@@ -665,8 +661,8 @@ def plot_attention_weights(attention, sentence, result, layer):
 def translate(sentence, plot=''):
     result, attention_weights = evaluate(sentence)
 
-    predicted_sentence = tokenizer_en.sequences_to_texts([[i.numpy() for i in result
-                                                           if i < EN_MAX_WORDS]])
+    predicted_sentence = tokenizer_en.decode([i.numpy() for i in result
+                                                           if i < EN_MAX_WORDS])
 
     print('Input: {}'.format(sentence))
     print('Predicted translation: {}'.format(predicted_sentence))
