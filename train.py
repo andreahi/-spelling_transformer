@@ -31,26 +31,32 @@ print("data loaded")
 vocab = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
          'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'æ', 'ø', 'å', ' ']
 
-tokenizer_pt = keras.preprocessing.text.Tokenizer(char_level=True)
+tokenizer_pt = None
 
-tokenizer_en = tfds.features.text.SubwordTextEncoder.build_from_corpus(
-    [en[1].numpy().decode("utf-8") for en in dataset], target_vocab_size=2 ** 13)
-
+tokenizer_en = None
 
 if os.path.isfile('tokenizer_pt.pickle'):
     with open('tokenizer_pt.pickle', 'rb') as handle:
         tokenizer_pt = pickle.load(handle)
 else:
+    tokenizer_pt = keras.preprocessing.text.Tokenizer(char_level=True)
     tokenizer_pt.fit_on_texts([en[0].numpy().decode("utf-8") for en in dataset])
 
+    with open('tokenizer_pt.pickle', 'wb') as handle:
+        pickle.dump(tokenizer_pt, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
+if os.path.isfile('tokenizer_en.pickle'):
+    with open('tokenizer_en.pickle', 'rb') as handle:
+        tokenizer_en = pickle.load(handle)
+else:
+    tokenizer_en = tfds.features.text.SubwordTextEncoder.build_from_corpus(
+        [en[1].numpy().decode("utf-8") for en in dataset], target_vocab_size=2 ** 13)
 
-# saving
-with open('tokenizer_pt.pickle', 'wb') as handle:
-    pickle.dump(tokenizer_pt, handle, protocol=pickle.HIGHEST_PROTOCOL)
-with open('tokenizer_en.pickle', 'wb') as handle:
-    pickle.dump(tokenizer_en, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open('tokenizer_en.pickle', 'wb') as handle:
+        pickle.dump(tokenizer_en, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+
 
 EN_MAX_WORDS = tokenizer_en.vocab_size
 
