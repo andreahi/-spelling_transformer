@@ -20,8 +20,8 @@ from tensorflow_datasets.core.features.text import TokenTextEncoder
 
 #dataset_x = dataset_x.map(lambda token: token.numpy().decode("utf-8"))
 
-dataset_x = tf.data.TextLineDataset("data/texts_noisy.txt").take(2000000)
-dataset_y = tf.data.TextLineDataset("data/texts.txt").take(2000000)
+dataset_x = tf.data.TextLineDataset("data/texts_noisy.txt").take(4000000)
+dataset_y = tf.data.TextLineDataset("data/texts.txt").take(4000000)
 dataset = Dataset.zip((dataset_x, dataset_y))
 
 
@@ -121,6 +121,7 @@ train_dataset = train_dataset.shuffle(BUFFER_SIZE).padded_batch(
     BATCH_SIZE, padded_shapes=([-1], [-1]))
 train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
+print("length dataset: " + str(len(train_dataset)))
 
 val_dataset = dataset.map(tf_encode)
 val_dataset = val_dataset.filter(filter_max_length).padded_batch(
