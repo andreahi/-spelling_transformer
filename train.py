@@ -565,10 +565,10 @@ for epoch in range(EPOCHS):
     for (batch, (inp, tar)) in enumerate(train_dataset):
         train_step(inp, tar)
 
-        print ('Epoch {} Batch {} Loss {:.4f} Accuracy {:.4f}'.format(
-            epoch + 1, batch, train_loss.result(), train_accuracy.result()))
-
         if batch % 500 == 0:
+            print('Epoch {} Batch {} Loss {:.4f} Accuracy {:.4f}'.format(
+                epoch + 1, batch, train_loss.result(), train_accuracy.result()))
+
             ckpt_save_path = ckpt_manager.save()
 
             if not model_printed:
