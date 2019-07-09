@@ -121,7 +121,6 @@ train_dataset = train_dataset.shuffle(BUFFER_SIZE).padded_batch(
     BATCH_SIZE, padded_shapes=([-1], [-1]))
 train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
-print("length dataset: " + str(len(train_dataset)))
 
 val_dataset = dataset.map(tf_encode)
 val_dataset = val_dataset.filter(filter_max_length).padded_batch(
@@ -563,15 +562,15 @@ for epoch in range(EPOCHS):
     #for e in train_dataset:
     #    print(e)
 
-
     for (batch, (inp, tar)) in enumerate(train_dataset):
         train_step(inp, tar)
+
+        print ('Epoch {} Batch {} Loss {:.4f} Accuracy {:.4f}'.format(
+            epoch + 1, batch, train_loss.result(), train_accuracy.result()))
 
         if batch % 500 == 0:
             ckpt_save_path = ckpt_manager.save()
 
-            print ('Epoch {} Batch {} Loss {:.4f} Accuracy {:.4f}'.format(
-                epoch + 1, batch, train_loss.result(), train_accuracy.result()))
             if not model_printed:
                 transformer.summary()
                 model_printed = True
