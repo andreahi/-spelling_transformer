@@ -117,7 +117,7 @@ train_dataset = dataset.map(tf_encode)
 train_dataset = train_dataset.filter(filter_max_length)
 # cache the dataset to memory to get a speedup while reading from it.
 train_dataset = train_dataset.cache(filename='dataset_cache2')
-train_dataset = train_dataset.padded_batch(
+train_dataset = train_dataset.shuffle(BUFFER_SIZE).padded_batch(
     BATCH_SIZE, padded_shapes=([-1], [-1]))
 train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
@@ -552,6 +552,16 @@ def train_step(inp, tar):
     train_accuracy(tar_real, predictions)
 
 
+@tf.function
+def train_epoch():
+    for (batch, (inp, tar)) in enumerate(train_dataset):
+        train_step(inp, tar)
+
+        if batch % 500 == 0:
+
+            ckpt_save_path = ckpt_manager.save()
+
+
 def train_model():
     model_printed = False
 
@@ -564,20 +574,7 @@ def train_model():
         # inp -> portuguese, tar -> english
         #for e in train_dataset:
         #    print(e)
-
-        for (batch, (inp, tar)) in enumerate(train_dataset):
-            train_step(inp, tar)
-
-            if batch % 500 == 0:
-                print('Epoch {} Batch {} Loss {:.4f} Accuracy {:.4f}'.format(
-                    epoch + 1, batch, train_loss.result(), train_accuracy.result()))
-
-                ckpt_save_path = ckpt_manager.save()
-
-                if not model_printed:
-                    transformer.summary()
-                    model_printed = True
-
+        train_epoch()
 
 
         print ('Epoch {} Loss {:.4f} Accuracy {:.4f}'.format(epoch + 1,
