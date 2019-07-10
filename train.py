@@ -551,7 +551,7 @@ def train_step(inp, tar):
     train_loss(loss)
     train_accuracy(tar_real, predictions)
 
-@tf.function
+
 def train_model():
     model_printed = False
 
