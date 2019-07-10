@@ -557,10 +557,6 @@ def train_epoch():
     for (batch, (inp, tar)) in enumerate(train_dataset):
         train_step(inp, tar)
 
-        if batch % 500 == 0:
-
-            ckpt_save_path = ckpt_manager.save()
-
 
 def train_model():
     model_printed = False
@@ -575,6 +571,7 @@ def train_model():
         #for e in train_dataset:
         #    print(e)
         train_epoch()
+        ckpt_save_path = ckpt_manager.save()
 
 
         print ('Epoch {} Loss {:.4f} Accuracy {:.4f}'.format(epoch + 1,
