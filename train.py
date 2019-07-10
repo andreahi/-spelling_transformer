@@ -117,7 +117,7 @@ train_dataset = dataset.map(tf_encode)
 train_dataset = train_dataset.filter(filter_max_length)
 # cache the dataset to memory to get a speedup while reading from it.
 train_dataset = train_dataset.cache(filename='dataset_cache2')
-train_dataset = train_dataset.shuffle(BUFFER_SIZE).padded_batch(
+train_dataset = train_dataset.padded_batch(
     BATCH_SIZE, padded_shapes=([-1], [-1]))
 train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
