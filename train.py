@@ -88,7 +88,7 @@ for ts in tokenized_string:
 
 
 BUFFER_SIZE = 20000
-BATCH_SIZE = 128
+BATCH_SIZE = 64
 
 
 def encode(lang1, lang2):
@@ -690,3 +690,8 @@ print ("Real translation: so i 'll just share with you some stories very quickly
 
 translate("este é o primeiro livro que eu fiz.", plot='decoder_layer4_block2')
 print ("Real translation: this is the first book i've ever done.")
+
+
+
+#Epoch 4 Loss 1.5582 Accuracy 0.1535
+#Time taken for 1 epoch: 834.0642580986023 secs
