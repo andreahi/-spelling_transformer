@@ -551,38 +551,39 @@ def train_step(inp, tar):
     train_loss(loss)
     train_accuracy(tar_real, predictions)
 
-model_printed = False
+def train_model():
+    model_printed = False
 
-for epoch in range(EPOCHS):
-    start = time.time()
+    for epoch in range(EPOCHS):
+        start = time.time()
 
-    train_loss.reset_states()
-    train_accuracy.reset_states()
+        train_loss.reset_states()
+        train_accuracy.reset_states()
 
-    # inp -> portuguese, tar -> english
-    #for e in train_dataset:
-    #    print(e)
+        # inp -> portuguese, tar -> english
+        #for e in train_dataset:
+        #    print(e)
 
-    for (batch, (inp, tar)) in enumerate(train_dataset):
-        train_step(inp, tar)
+        for (batch, (inp, tar)) in enumerate(train_dataset):
+            train_step(inp, tar)
 
-        if batch % 500 == 0:
-            print('Epoch {} Batch {} Loss {:.4f} Accuracy {:.4f}'.format(
-                epoch + 1, batch, train_loss.result(), train_accuracy.result()))
+            if batch % 500 == 0:
+                print('Epoch {} Batch {} Loss {:.4f} Accuracy {:.4f}'.format(
+                    epoch + 1, batch, train_loss.result(), train_accuracy.result()))
 
-            ckpt_save_path = ckpt_manager.save()
+                ckpt_save_path = ckpt_manager.save()
 
-            if not model_printed:
-                transformer.summary()
-                model_printed = True
+                if not model_printed:
+                    transformer.summary()
+                    model_printed = True
 
 
 
-    print ('Epoch {} Loss {:.4f} Accuracy {:.4f}'.format(epoch + 1,
-                                                         train_loss.result(),
-                                                         train_accuracy.result()))
+        print ('Epoch {} Loss {:.4f} Accuracy {:.4f}'.format(epoch + 1,
+                                                             train_loss.result(),
+                                                             train_accuracy.result()))
 
-    print ('Time taken for 1 epoch: {} secs\n'.format(time.time() - start))
+        print ('Time taken for 1 epoch: {} secs\n'.format(time.time() - start))
 
 
 
@@ -677,7 +678,7 @@ def translate(sentence, plot=''):
     if plot:
         plot_attention_weights(attention_weights, sentence, result, plot)
 
-
+train_model()
 
 translate("en familie hadde sin eiendom .")
 print ("Real translation: this is a problem we have to solve .")
