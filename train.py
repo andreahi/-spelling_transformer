@@ -121,8 +121,10 @@ def tf_encode(pt, en):
 #    BATCH_SIZE, padded_shapes=([-1], [-1]))
 #train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
-train_dataset = dataset.apply(tf.contrib.data.map_and_batch(
-    map_func=tf_encode, batch_size=BATCH_SIZE))
+dataset = dataset.map(map_func=tf_encode(), num_parallel_calls=4)
+dataset = dataset.batch(batch_size=BATCH_SIZE)
+
+train_dataset = dataset
 
 val_dataset = dataset.map(tf_encode)
 val_dataset = val_dataset.filter(filter_max_length).padded_batch(
