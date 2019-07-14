@@ -113,14 +113,16 @@ def tf_encode(pt, en):
     return tf.py_function(encode, [pt, en], [tf.int64, tf.int64])
 
 
-train_dataset = dataset.map(tf_encode)
-train_dataset = train_dataset.filter(filter_max_length)
+#train_dataset = dataset.map(tf_encode)
+#train_dataset = train_dataset.filter(filter_max_length)
 # cache the dataset to memory to get a speedup while reading from it.
-train_dataset = train_dataset.cache()
-train_dataset = train_dataset.shuffle(BUFFER_SIZE).padded_batch(
-    BATCH_SIZE, padded_shapes=([-1], [-1]))
-train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
+#train_dataset = train_dataset.cache()
+#train_dataset = train_dataset.shuffle(BUFFER_SIZE).padded_batch(
+#    BATCH_SIZE, padded_shapes=([-1], [-1]))
+#train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
+train_dataset = dataset.apply(tf.contrib.data.map_and_batch(
+    map_func=tf_encode, batch_size=BATCH_SIZE))
 
 val_dataset = dataset.map(tf_encode)
 val_dataset = val_dataset.filter(filter_max_length).padded_batch(
