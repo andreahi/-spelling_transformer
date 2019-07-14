@@ -121,7 +121,7 @@ def tf_encode(pt, en):
 #    BATCH_SIZE, padded_shapes=([-1], [-1]))
 #train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
-dataset = dataset.map(map_func=tf_encode(), num_parallel_calls=4)
+dataset = dataset.map(map_func=tf_encode, num_parallel_calls=4)
 dataset = dataset.batch(batch_size=BATCH_SIZE)
 
 train_dataset = dataset
