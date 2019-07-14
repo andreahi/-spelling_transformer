@@ -126,7 +126,7 @@ train_dataset = dataset\
     .filter(filter_max_length)\
     .padded_batch(BATCH_SIZE, padded_shapes=([-1], [-1]))
 
-train_dataset =  train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
+train_dataset =  train_dataset.prefetch(100)
 
 
 val_dataset = dataset.map(tf_encode)
