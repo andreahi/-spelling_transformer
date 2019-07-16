@@ -88,7 +88,7 @@ for ts in tokenized_string:
 
 
 BUFFER_SIZE = 20000
-BATCH_SIZE = 2
+BATCH_SIZE = 32
 
 
 def encode(lang1, lang2):
@@ -371,7 +371,7 @@ class Encoder(tf.keras.layers.Layer):
 
         x = self.dropout(x, training=training)
 
-        for i in tf.range(self.num_layers):
+        for i in range(self.num_layers):
             x = self.enc_layers[i](x, training, mask)
 
         return x  # (batch_size, input_seq_len, d_model)
@@ -404,7 +404,7 @@ class Decoder(tf.keras.layers.Layer):
 
         x = self.dropout(x, training=training)
 
-        for i in tf.range(self.num_layers):
+        for i in range(self.num_layers):
             x, block1, block2 = self.dec_layers[i](x, enc_output, training,
                                                    look_ahead_mask, padding_mask)
 
