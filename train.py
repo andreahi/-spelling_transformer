@@ -538,7 +538,6 @@ EPOCHS = 200
 
 
 
-@tf.function
 def train_step(inp, tar):
     tar_inp = tar[:, :-1]
     tar_real = tar[:, 1:]
@@ -559,6 +558,7 @@ def train_step(inp, tar):
     train_loss(loss)
     train_accuracy(tar_real, predictions)
 
+@tf.function
 def train_epoch(train_dataset):
     for (inp, tar) in train_dataset:
         train_step(inp, tar)
