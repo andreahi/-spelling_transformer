@@ -20,8 +20,8 @@ from tensorflow_datasets.core.features.text import TokenTextEncoder
 
 #dataset_x = dataset_x.map(lambda token: token.numpy().decode("utf-8"))
 
-dataset_x = tf.data.TextLineDataset("data/texts_noisy.txt").take(1000)
-dataset_y = tf.data.TextLineDataset("data/texts.txt").take(1000)
+dataset_x = tf.data.TextLineDataset("data/texts_noisy.txt").take(100000)
+dataset_y = tf.data.TextLineDataset("data/texts.txt").take(100000)
 dataset = Dataset.zip((dataset_x, dataset_y))
 
 
@@ -88,7 +88,7 @@ for ts in tokenized_string:
 
 
 BUFFER_SIZE = 20000
-BATCH_SIZE = 32
+BATCH_SIZE = 256
 
 
 def encode(lang1, lang2):
