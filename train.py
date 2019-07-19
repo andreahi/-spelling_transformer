@@ -88,7 +88,7 @@ for ts in tokenized_string:
 
 
 BUFFER_SIZE = 20000
-BATCH_SIZE = 256
+BATCH_SIZE = 4
 
 
 def encode(lang1, lang2):
@@ -125,7 +125,7 @@ train_dataset = dataset\
     .map(map_func=tf_encode, num_parallel_calls=4)\
     .filter(filter_max_length)\
     .padded_batch(BATCH_SIZE, padded_shapes=([-1], [-1]))\
-    .cache()
+    #.cache()
 
 train_dataset = train_dataset
 
@@ -446,10 +446,10 @@ class Transformer(tf.keras.Model):
 
 
 #model parameters
-num_layers = 3
-d_model = 128
-dff = 128
-num_heads = 4
+num_layers = 10
+d_model = 512
+dff = 512
+num_heads = 16
 
 input_vocab_size = len(tokenizer_pt.index_word) + 2
 target_vocab_size = EN_MAX_WORDS + 2
