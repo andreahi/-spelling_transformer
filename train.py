@@ -88,7 +88,7 @@ for ts in tokenized_string:
 
 
 BUFFER_SIZE = 20000
-BATCH_SIZE = 4
+BATCH_SIZE = 32
 
 
 def encode(lang1, lang2):
@@ -559,7 +559,7 @@ def train_step(inp, tar):
     train_accuracy(tar_real, predictions)
 
 def train_epoch(train_dataset):
-    for (inp, tar) in train_dataset.take(10):
+    for (inp, tar) in train_dataset.take(512):
         train_step(inp, tar)
 
 
