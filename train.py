@@ -534,7 +534,7 @@ if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
     print ('Latest checkpoint restored!!')
 
-EPOCHS = 200
+EPOCHS = 2000
 
 
 @tf.function
@@ -559,7 +559,7 @@ def train_step(inp, tar):
     train_accuracy(tar_real, predictions)
 
 def train_epoch(train_dataset):
-    for (inp, tar) in train_dataset.take(64):
+    for (inp, tar) in train_dataset.take(32):
         train_step(inp, tar)
 
 
