@@ -20,8 +20,8 @@ from tensorflow_datasets.core.features.text import TokenTextEncoder
 
 #dataset_x = dataset_x.map(lambda token: token.numpy().decode("utf-8"))
 
-dataset_x = tf.data.TextLineDataset("data/texts_noisy.txt").take(100000)
-dataset_y = tf.data.TextLineDataset("data/texts.txt").take(100000)
+dataset_x = tf.data.TextLineDataset("data/texts_noisy.txt")
+dataset_y = tf.data.TextLineDataset("data/texts.txt")
 dataset = Dataset.zip((dataset_x, dataset_y))
 
 
@@ -559,7 +559,7 @@ def train_step(inp, tar):
     train_accuracy(tar_real, predictions)
 
 def train_epoch(train_dataset):
-    for (inp, tar) in train_dataset:
+    for (inp, tar) in train_dataset.take(10):
         train_step(inp, tar)
 
 
