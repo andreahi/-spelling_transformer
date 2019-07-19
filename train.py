@@ -559,7 +559,7 @@ def train_step(inp, tar):
     train_accuracy(tar_real, predictions)
 
 def train_epoch(train_dataset):
-    for (inp, tar) in train_dataset.take(128):
+    for (inp, tar) in train_dataset.take(64):
         train_step(inp, tar)
 
 
