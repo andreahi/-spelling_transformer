@@ -127,7 +127,7 @@ train_dataset = dataset\
     .padded_batch(BATCH_SIZE, padded_shapes=([-1], [-1]))\
     .cache()
 
-train_dataset =  train_dataset.prefetch(100)
+train_dataset = train_dataset
 
 
 val_dataset = dataset.map(tf_encode)
@@ -558,6 +558,7 @@ def train_step(inp, tar):
     train_loss(loss)
     train_accuracy(tar_real, predictions)
 
+@tf.function
 def train_epoch(train_dataset):
     for (inp, tar) in train_dataset:
         train_step(inp, tar)
