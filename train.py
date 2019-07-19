@@ -558,7 +558,6 @@ def train_step(inp, tar):
     train_loss(loss)
     train_accuracy(tar_real, predictions)
 
-@tf.function
 def train_epoch(train_dataset):
     for (inp, tar) in train_dataset:
         train_step(inp, tar)
