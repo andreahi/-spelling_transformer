@@ -127,7 +127,7 @@ train_dataset = dataset\
     .padded_batch(BATCH_SIZE, padded_shapes=([-1], [-1]))\
     #.cache()
 
-train_dataset = train_dataset
+train_dataset = train_dataset.prefetch(4)
 
 
 val_dataset = dataset.map(tf_encode)
