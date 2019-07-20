@@ -558,9 +558,9 @@ def train_step(inp, tar):
     train_loss(loss)
     train_accuracy(tar_real, predictions)
 
-def train_epoch(train_dataset):
-    for (inp, tar) in train_dataset.take(32):
-        print(tar[0].numpy())
+def train_epoch(train_dataset, epoch):
+    for (inp, tar) in train_dataset.skip(32 * epoch).take(32):
+        #print(tar[0].numpy())
         train_step(inp, tar)
 
 
@@ -576,7 +576,7 @@ def train_model():
         # inp -> portuguese, tar -> english
         #for e in train_dataset:
         #    print(e)
-        train_epoch(train_dataset)
+        train_epoch(train_dataset, epoch)
         ckpt_save_path = ckpt_manager.save()
 
 
