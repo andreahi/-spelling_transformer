@@ -560,7 +560,7 @@ def train_step(inp, tar):
 
 def train_epoch(train_dataset):
     for (inp, tar) in train_dataset.take(32):
-        print(tar[0].numpy().decode("utf-8"))
+        print(tar[0].numpy())
         train_step(inp, tar)
 
 
