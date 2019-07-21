@@ -447,7 +447,7 @@ class Transformer(tf.keras.Model):
 
 #model parameters
 num_layers = 10
-d_model = 512
+d_model = 1024
 dff = 512
 num_heads = 16
 
