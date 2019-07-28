@@ -124,7 +124,7 @@ def tf_encode(pt, en):
 train_dataset = dataset\
     .map(map_func=tf_encode, num_parallel_calls=4)\
     .filter(filter_max_length)\
-    .padded_batch(BATCH_SIZE, padded_shapes=([MAX_LENGTH], [MAX_LENGTH]))\
+    .padded_batch(BATCH_SIZE, padded_shapes=([MAX_LENGTH], [15]))\
     #.cache()
 train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
@@ -475,7 +475,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 learning_rate = CustomSchedule(d_model)
 
-optimizer = tf.keras.optimizers.Adam(0.0001, beta_1=0.9, beta_2=0.98,
+optimizer = tf.keras.optimizers.Adam(0.00001, beta_1=0.9, beta_2=0.98,
                                      epsilon=1e-9)
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
