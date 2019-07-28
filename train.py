@@ -124,7 +124,7 @@ def tf_encode(pt, en):
 train_dataset = dataset\
     .map(map_func=tf_encode, num_parallel_calls=4)\
     .filter(filter_max_length)\
-    .padded_batch(BATCH_SIZE, padded_shapes=([-1], [-1]))\
+    .batch(BATCH_SIZE)\
     #.cache()
 
 train_dataset = train_dataset.prefetch(4)
