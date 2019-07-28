@@ -534,7 +534,7 @@ if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
     print ('Latest checkpoint restored!!')
 
-EPOCHS = 20000
+EPOCHS = 10
 
 
 @tf.function
