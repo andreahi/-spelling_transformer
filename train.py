@@ -56,7 +56,17 @@ else:
     with open('tokenizer_en.pickle', 'wb') as handle:
         pickle.dump(tokenizer_en, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+max_len_x = 0
+max_len_y = 0
+#for e in dataset:
+#    if max_len_x < len(e[0].numpy().decode("utf-8")):
+#        max_len_x = e[0].numpy().decode("utf-8")
+#
+#    if max_len_y < len(e[1].numpy().decode("utf-8")):
+#        max_len_y = e[1].numpy().decode("utf-8")
 
+print("max_len_x: ", str(max_len_x))
+print("max_len_y: ", str(max_len_y))
 
 EN_MAX_WORDS = tokenizer_en.vocab_size
 
@@ -124,7 +134,7 @@ def tf_encode(pt, en):
 train_dataset = dataset\
     .map(map_func=tf_encode, num_parallel_calls=4)\
     .filter(filter_max_length)\
-    .padded_batch(BATCH_SIZE, padded_shapes=([MAX_LENGTH], [20]))\
+    .padded_batch(BATCH_SIZE, padded_shapes=([MAX_LENGTH], [30]))\
     #.cache()
 train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
