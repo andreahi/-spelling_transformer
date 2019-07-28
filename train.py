@@ -117,7 +117,7 @@ MAX_LENGTH = 70
 
 def filter_max_length(x, y, max_length=MAX_LENGTH):
     return tf.logical_and(tf.size(x) <= max_length,
-                          tf.size(y) <= max_length)
+                          tf.size(y) <= 20)
 
 def tf_encode(pt, en):
     return tf.py_function(encode, [pt, en], [tf.int64, tf.int64])
@@ -134,7 +134,7 @@ def tf_encode(pt, en):
 train_dataset = dataset\
     .map(map_func=tf_encode, num_parallel_calls=4)\
     .filter(filter_max_length)\
-    .padded_batch(BATCH_SIZE, padded_shapes=([MAX_LENGTH], [25]))\
+    .padded_batch(BATCH_SIZE, padded_shapes=([MAX_LENGTH], [20]))\
     #.cache()
 train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
