@@ -124,8 +124,9 @@ def tf_encode(pt, en):
 train_dataset = dataset\
     .map(map_func=tf_encode, num_parallel_calls=4)\
     .filter(filter_max_length)\
-    .batch(BATCH_SIZE)\
+    .padded_batch(BATCH_SIZE, padded_shapes=([filter_max_length], [filter_max_length]))\
     #.cache()
+train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
 train_dataset = train_dataset.prefetch(4)
 
