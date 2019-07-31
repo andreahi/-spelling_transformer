@@ -98,7 +98,7 @@ for ts in tokenized_string:
 
 
 BUFFER_SIZE = 20000
-BATCH_SIZE = 64
+BATCH_SIZE = 128
 
 
 def encode(lang1, lang2):
