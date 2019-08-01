@@ -464,7 +464,7 @@ num_heads = 16
 
 input_vocab_size = len(tokenizer_pt.index_word) + 2
 target_vocab_size = EN_MAX_WORDS + 2
-dropout_rate = 0.1
+dropout_rate = 0.05
 
 
 class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
@@ -485,7 +485,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 learning_rate = CustomSchedule(d_model)
 
-optimizer = tf.keras.optimizers.Adam(0.000001, beta_1=0.9, beta_2=0.98,
+optimizer = tf.keras.optimizers.Adam(0.001, beta_1=0.9, beta_2=0.98,
                                      epsilon=1e-9)
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
@@ -570,7 +570,7 @@ def train_step(inp, tar):
     train_accuracy(tar_real, predictions)
 
 def train_epoch(train_dataset, epoch):
-    for (inp, tar) in train_dataset.skip(0).take(320):
+    for (inp, tar) in train_dataset.skip(0).take(3200):
         #print(tar[0].numpy())
         train_step(inp, tar)
 
