@@ -457,10 +457,13 @@ class Transformer(tf.keras.Model):
 
 
 #model parameters
-num_layers = 10
-d_model = 128
-dff = 512
-num_heads = 8
+num_layers = 6
+d_model = 512
+dff = 2048
+num_heads = 16
+
+#d_model = 128
+#dff = 512
 
 input_vocab_size = len(tokenizer_pt.index_word) + 2
 target_vocab_size = EN_MAX_WORDS + 2
