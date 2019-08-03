@@ -457,14 +457,14 @@ class Transformer(tf.keras.Model):
 
 
 #model parameters
-num_layers = 6
-d_model = 1024
+num_layers = 4
+d_model = 128
 dff = 512
-num_heads = 16
+num_heads = 8
 
 input_vocab_size = len(tokenizer_pt.index_word) + 2
-target_vocab_size = EN_MAX_WORDS + 2
-dropout_rate = 0.05
+target_vocab_size = len(tokenizer_en.index_word) + 2
+dropout_rate = 0.1
 
 
 class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
