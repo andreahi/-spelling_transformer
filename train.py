@@ -463,7 +463,7 @@ dff = 512
 num_heads = 8
 
 input_vocab_size = len(tokenizer_pt.index_word) + 2
-target_vocab_size = len(tokenizer_en.index_word) + 2
+target_vocab_size = EN_MAX_WORDS + 2
 dropout_rate = 0.1
 
 
