@@ -83,7 +83,7 @@ print("len(tokenizer_pt.index_word): " + str(len(tokenizer_pt.index_word)))
 #    iter(dataset), target_vocab_size=2**13)
 
 
-sample_string = 'slottetgresspåslottet .'
+sample_string = '#slottetgresspåslottet .£'
 
 tokenized_string = tokenizer_en.encode(sample_string)
 print ('Tokenized string is {}'.format(tokenized_string))
@@ -548,7 +548,7 @@ if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
     print ('Latest checkpoint restored!!')
 
-EPOCHS = 2
+EPOCHS = 2000
 
 
 @tf.function
