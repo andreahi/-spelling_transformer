@@ -84,8 +84,7 @@ print("len(tokenizer_pt.index_word): " + str(len(tokenizer_pt.index_word)))
 
 
 sample_string = '#slottetgresspåslottet .£'
-
-tokenized_string = tokenizer_pt.encode(sample_string)
+tokenized_string = np.reshape(tokenizer_pt.texts_to_sequences([sample_string]), -1)
 print ('Tokenized string pt is {}'.format(tokenized_string))
 
 tokenized_string = tokenizer_en.encode(sample_string)
