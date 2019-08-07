@@ -85,8 +85,11 @@ print("len(tokenizer_pt.index_word): " + str(len(tokenizer_pt.index_word)))
 
 sample_string = '#slottetgresspåslottet .£'
 
+tokenized_string = tokenizer_pt.encode(sample_string)
+print ('Tokenized string pt is {}'.format(tokenized_string))
+
 tokenized_string = tokenizer_en.encode(sample_string)
-print ('Tokenized string is {}'.format(tokenized_string))
+print ('Tokenized string en is {}'.format(tokenized_string))
 
 original_string = tokenizer_en.decode(tokenized_string)
 print ('The original string: {}'.format(original_string))
