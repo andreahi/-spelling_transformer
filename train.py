@@ -106,7 +106,7 @@ BATCH_SIZE = 64
 def encode(lang1, lang2):
     #print("lang1:" + str(lang1))
     sequences1 = np.reshape(tokenizer_pt.texts_to_sequences([lang1.numpy().decode("utf-8")]), -1)
-    lang1 = np.concatenate([np.reshape(tokenizer_pt.texts_to_sequences(['Å']), -1),  sequences1,  np.reshape(tokenizer_pt.texts_to_sequences(['Å']), -1)])
+    lang1 = np.concatenate([np.reshape(tokenizer_pt.texts_to_sequences(['å']), -1),  sequences1,  np.reshape(tokenizer_pt.texts_to_sequences(['å']), -1)])
 
     sequences2 = np.reshape(tokenizer_en.encode(lang2.numpy().decode("utf-8")), -1)
     lang2 = np.concatenate([tokenizer_en.encode("#"), sequences2, tokenizer_en.encode("£")])
