@@ -469,7 +469,7 @@ num_heads = 16
 
 input_vocab_size = len(tokenizer_pt.index_word) + 2
 target_vocab_size = EN_MAX_WORDS + 2
-dropout_rate = 0.05
+dropout_rate = 0.00
 
 
 class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
