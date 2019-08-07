@@ -83,7 +83,7 @@ print("len(tokenizer_pt.index_word): " + str(len(tokenizer_pt.index_word)))
 #    iter(dataset), target_vocab_size=2**13)
 
 
-sample_string = '#slottetgresspåslottet .£'
+sample_string = '#slottetgresspåslottet abcdefghijklmnopqrstuvwxyzæøå .£'
 tokenized_string = np.reshape(tokenizer_pt.texts_to_sequences([sample_string]), -1)
 print ('Tokenized string pt is {}'.format(tokenized_string))
 
