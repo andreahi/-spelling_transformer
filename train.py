@@ -51,7 +51,7 @@ if os.path.isfile('tokenizer_en.pickle'):
         tokenizer_en = pickle.load(handle)
 else:
     tokenizer_en = tfds.features.text.SubwordTextEncoder.build_from_corpus(
-        [en[1].numpy().decode("utf-8") for en in dataset], target_vocab_size=2 ** 9)
+        [en[1].numpy().decode("utf-8") for en in dataset], target_vocab_size=2 ** 11)
 
     with open('tokenizer_en.pickle', 'wb') as handle:
         pickle.dump(tokenizer_en, handle, protocol=pickle.HIGHEST_PROTOCOL)
@@ -490,7 +490,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 learning_rate = CustomSchedule(d_model)
 
-optimizer = tf.keras.optimizers.Adam(0.00001, beta_1=0.9, beta_2=0.98,
+optimizer = tf.keras.optimizers.Adam(0.0001, beta_1=0.9, beta_2=0.98,
                                      epsilon=1e-9)
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
