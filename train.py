@@ -51,7 +51,7 @@ if os.path.isfile('tokenizer_en.pickle'):
         tokenizer_en = pickle.load(handle)
 else:
     tokenizer_en = tfds.features.text.SubwordTextEncoder.build_from_corpus(
-        [en[1].numpy().decode("utf-8") for en in dataset], target_vocab_size=2 ** 11)
+        [en[1].numpy().decode("utf-8") for en in dataset], target_vocab_size=2 ** 13)
 
     with open('tokenizer_en.pickle', 'wb') as handle:
         pickle.dump(tokenizer_en, handle, protocol=pickle.HIGHEST_PROTOCOL)
