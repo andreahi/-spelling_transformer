@@ -109,7 +109,7 @@ def encode(lang1, lang2):
     lang1 = np.concatenate([np.reshape(tokenizer_pt.texts_to_sequences(['å']), -1),  sequences1,  np.reshape(tokenizer_pt.texts_to_sequences(['å']), -1)])
 
     sequences2 = np.reshape(tokenizer_en.encode(lang2.numpy().decode("utf-8")), -1)
-    lang2 = np.concatenate([tokenizer_en.encode("#"), sequences2, tokenizer_en.encode("£")])
+    lang2 = np.concatenate([tokenizer_en.encode("å"), sequences2, tokenizer_en.encode("å")])
     #print(len(lang1))
     #print(lang2)
     return lang1, lang2
@@ -576,8 +576,8 @@ def train_step(inp, tar):
 
 def train_epoch(train_dataset, epoch):
     for (inp, tar) in train_dataset.skip(0).take(320):
-        print(inp[0].numpy())
-        print(tar[0].numpy())
+        #print(inp[0].numpy())
+        #print(tar[0].numpy())
         train_step(inp, tar)
 
 
