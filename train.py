@@ -575,7 +575,7 @@ def train_step(inp, tar):
     train_accuracy(tar_real, predictions)
 
 def train_epoch(train_dataset, epoch):
-    for (inp, tar) in train_dataset.skip(0).take(32):
+    for (inp, tar) in train_dataset.skip(0).take(10):
         #print(inp[0].numpy())
         #print(tar[0].numpy())
         train_step(inp, tar)
