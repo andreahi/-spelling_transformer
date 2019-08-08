@@ -100,7 +100,7 @@ for ts in tokenized_string:
 
 
 BUFFER_SIZE = 20000
-BATCH_SIZE = 32
+BATCH_SIZE = 64
 
 
 def encode(lang1, lang2):
@@ -550,7 +550,7 @@ if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
     print ('Latest checkpoint restored!!')
 
-EPOCHS = 2000
+EPOCHS = 20
 
 
 @tf.function
@@ -575,7 +575,7 @@ def train_step(inp, tar):
     train_accuracy(tar_real, predictions)
 
 def train_epoch(train_dataset, epoch):
-    for (inp, tar) in train_dataset.skip(0).take(2):
+    for (inp, tar) in train_dataset.skip(0).take(10):
         #print(inp[0].numpy())
         #print(tar[0].numpy())
         train_step(inp, tar)
