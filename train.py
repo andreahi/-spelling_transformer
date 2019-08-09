@@ -100,7 +100,7 @@ for ts in tokenized_string:
 
 
 BUFFER_SIZE = 20000
-BATCH_SIZE = 64
+BATCH_SIZE = 32
 
 
 def encode(lang1, lang2):
@@ -490,7 +490,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 learning_rate = CustomSchedule(d_model)
 
-optimizer = tf.keras.optimizers.Adam(0.000001, beta_1=0.9, beta_2=0.98,
+optimizer = tf.keras.optimizers.Adam(0.0001, beta_1=0.9, beta_2=0.98,
                                      epsilon=1e-9)
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
