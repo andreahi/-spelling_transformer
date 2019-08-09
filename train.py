@@ -490,7 +490,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 learning_rate = CustomSchedule(d_model)
 
-optimizer = tf.keras.optimizers.Adam(0.0001)
+optimizer = tf.keras.optimizers.Adam(0.00001)
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
 
