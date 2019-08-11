@@ -99,7 +99,7 @@ for ts in tokenized_string:
     print ('{} ----> {}'.format(ts, tokenizer_en.decode([ts])))
 
 
-BUFFER_SIZE = 2000000
+BUFFER_SIZE = 200
 BATCH_SIZE = 32
 
 
@@ -575,7 +575,7 @@ def train_step(inp, tar):
     train_accuracy(tar_real, predictions)
 
 def train_epoch(train_dataset, epoch):
-    for (inp, tar) in train_dataset.skip(0).take(1000):
+    for (inp, tar) in train_dataset.skip(0).take(100000):
         #print(inp[0].numpy())
         #print(tar[0].numpy())
         train_step(inp, tar)
