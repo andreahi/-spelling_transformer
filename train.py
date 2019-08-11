@@ -580,6 +580,8 @@ def train_epoch(train_dataset, epoch):
         #print(inp[0].numpy())
         #print(tar[0].numpy())
         train_step(inp, tar)
+
+        count += 1
         if count % 1000 == 0:
             ckpt_save_path = ckpt_manager.save()
 
