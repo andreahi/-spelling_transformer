@@ -99,7 +99,7 @@ for ts in tokenized_string:
     print ('{} ----> {}'.format(ts, tokenizer_en.decode([ts])))
 
 
-BUFFER_SIZE = 20000
+BUFFER_SIZE = 2000000
 BATCH_SIZE = 32
 
 
@@ -137,7 +137,8 @@ train_dataset = dataset\
     .map(map_func=tf_encode, num_parallel_calls=4)\
     .filter(filter_max_length)\
     .padded_batch(BATCH_SIZE, padded_shapes=([MAX_LENGTH], [20]))\
-    #.cache()
+    .shuffle(BUFFER_SIZE)
+
 train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
 train_dataset = train_dataset.prefetch(4)
@@ -574,7 +575,7 @@ def train_step(inp, tar):
     train_accuracy(tar_real, predictions)
 
 def train_epoch(train_dataset, epoch):
-    for (inp, tar) in train_dataset.skip(0).take(100000):
+    for (inp, tar) in train_dataset.skip(0).take(1000):
         #print(inp[0].numpy())
         #print(tar[0].numpy())
         train_step(inp, tar)
