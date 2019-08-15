@@ -491,7 +491,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 learning_rate = CustomSchedule(d_model)
 
-optimizer = tf.keras.optimizers.Adam(0.0001)
+optimizer = tf.keras.optimizers.Adam(0.001)
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
 
@@ -618,7 +618,7 @@ def evaluate(inp_sentence):
 
     # inp sentence is portuguese, hence adding the start and end token
     sequences1 = np.reshape(tokenizer_pt.texts_to_sequences([inp_sentence]), -1)
-    inp_sentence = np.concatenate([np.reshape(tokenizer_pt.texts_to_sequences(['#']), -1),  sequences1,  np.reshape(tokenizer_pt.texts_to_sequences(['$']), -1)])
+    inp_sentence = np.concatenate([np.reshape(tokenizer_pt.texts_to_sequences(['å']), -1),  sequences1,  np.reshape(tokenizer_pt.texts_to_sequences(['å']), -1)])
 
 
     encoder_input = tf.expand_dims(inp_sentence, 0)
