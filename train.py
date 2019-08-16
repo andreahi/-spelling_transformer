@@ -491,7 +491,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 learning_rate = CustomSchedule(d_model)
 
-optimizer = tf.keras.optimizers.Adam(0.001)
+optimizer = tf.keras.optimizers.Adam(0.0001)
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
 
@@ -550,7 +550,7 @@ if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
     print ('Latest checkpoint restored!!')
 
-EPOCHS = 1000
+EPOCHS = 1
 
 
 @tf.function
@@ -576,7 +576,7 @@ def train_step(inp, tar):
 
 def train_epoch(train_dataset, epoch):
     count = 0
-    for (inp, tar) in train_dataset.skip(0).take(100000):
+    for (inp, tar) in train_dataset.skip(0).take(10):
         #print(inp[0].numpy())
         #print(tar[0].numpy())
         train_step(inp, tar)
@@ -720,3 +720,6 @@ print ("Real translation: this is the first book i've ever done.")
 
 #Epoch 4 Loss 1.5582 Accuracy 0.1535
 #Time taken for 1 epoch: 834.0642580986023 secs
+
+#Epoch 18 Loss 1.0581 Accuracy 0.1935
+#Time taken for 1 epoch: 13206.124362945557 secs
