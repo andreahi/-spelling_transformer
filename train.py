@@ -106,7 +106,7 @@ BATCH_SIZE = 32
 def encode(lang1, lang2):
     #print("lang1:" + str(lang1))
     sequences1 = np.reshape(tokenizer_pt.texts_to_sequences([lang1.numpy().decode("utf-8")]), -1)
-    lang1 = np.concatenate([np.reshape([EN_MAX_WORDS], -1),  sequences1,  np.reshape([EN_MAX_WORDS + 1], -1)])
+    lang1 = np.concatenate([np.reshape([len(tokenizer_pt.index_word)], -1),  sequences1,  np.reshape([len(tokenizer_pt.index_word) + 1], -1)])
 
     sequences2 = np.reshape(tokenizer_en.encode(lang2.numpy().decode("utf-8")), -1)
     lang2 = np.concatenate([[tokenizer_en.vocab_size], sequences2, [tokenizer_en.vocab_size + 1]])
@@ -618,9 +618,9 @@ def evaluate(inp_sentence):
 
     # inp sentence is portuguese, hence adding the start and end token
     sequences1 = np.reshape(tokenizer_pt.texts_to_sequences([inp_sentence]), -1)
-    inp_sentence = np.concatenate([np.reshape([EN_MAX_WORDS], -1),
+    inp_sentence = np.concatenate([np.reshape([len(tokenizer_pt.index_word)], -1),
                                    sequences1,
-                                   np.reshape([EN_MAX_WORDS + 1], -1)])
+                                   np.reshape([len(tokenizer_pt.index_word) + 1], -1)])
 
 
     encoder_input = tf.expand_dims(inp_sentence, 0)
