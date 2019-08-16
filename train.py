@@ -577,8 +577,8 @@ def train_step(inp, tar):
 def train_epoch(train_dataset, epoch):
     count = 0
     for (inp, tar) in train_dataset.skip(0).take(100000):
-        print(inp[0].numpy())
-        print(tar[0].numpy())
+        #print(inp[0].numpy())
+        #print(tar[0].numpy())
         train_step(inp, tar)
 
         count += 1
