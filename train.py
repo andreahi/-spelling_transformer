@@ -586,6 +586,7 @@ def train_epoch(train_dataset, epoch):
 
         count += 1
         if count % 1000 == 0:
+            print("batch count: ", count)
             ckpt_save_path = ckpt_manager.save()
 
             print ('Epoch {} Loss {:.4f} Accuracy {:.4f}'.format(epoch + 1,
@@ -604,7 +605,6 @@ def train_epoch(train_dataset, epoch):
 def train_model():
     model_printed = False
 
-    print(len(train_dataset))
     for epoch in range(EPOCHS):
 
 
