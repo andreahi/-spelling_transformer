@@ -576,15 +576,28 @@ def train_step(inp, tar):
 
 def train_epoch(train_dataset, epoch):
     count = 0
-    for (inp, tar) in train_dataset.skip(epoch * 10000).take(10000):
+
+    start = time.time()
+
+    for (inp, tar) in train_dataset: #.skip(epoch * 10000).take(10000):
         #print(inp[0].numpy())
         #print(tar[0].numpy())
         train_step(inp, tar)
 
-        #count += 1
-        #if count % 1000 == 0:
-        #    ckpt_save_path = ckpt_manager.save()
-    ckpt_save_path = ckpt_manager.save()
+        count += 1
+        if count % 1000 == 0:
+            ckpt_save_path = ckpt_manager.save()
+
+            print ('Epoch {} Loss {:.4f} Accuracy {:.4f}'.format(epoch + 1,
+                                                                 train_loss.result(),
+                                                                 train_accuracy.result()))
+            print ('Time taken for 1 epoch: {} secs\n'.format(time.time() - start))
+
+            train_loss.reset_states()
+            train_accuracy.reset_states()
+            start = time.time()
+
+
 
 
 
@@ -592,27 +605,18 @@ def train_model():
     model_printed = False
 
     print(len(train_dataset))
-    epoch = 0
-    for _ in range(EPOCHS):
-        start = time.time()
+    for epoch in range(EPOCHS):
 
-        train_loss.reset_states()
-        train_accuracy.reset_states()
+
 
         # inp -> portuguese, tar -> english
         #for e in train_dataset:
         #    print(e)
-        if (epoch * 10000) > len(train_dataset):
-            epoch = 0
+
         train_epoch(train_dataset, epoch)
         ckpt_save_path = ckpt_manager.save()
 
 
-        print ('Epoch {} Loss {:.4f} Accuracy {:.4f}'.format(epoch + 1,
-                                                             train_loss.result(),
-                                                             train_accuracy.result()))
-
-        print ('Time taken for 1 epoch: {} secs\n'.format(time.time() - start))
 
 
 
