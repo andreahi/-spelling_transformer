@@ -576,21 +576,24 @@ def train_step(inp, tar):
 
 def train_epoch(train_dataset, epoch):
     count = 0
-    for (inp, tar) in train_dataset.skip(100000).take(100000):
+    for (inp, tar) in train_dataset.skip(epoch * 10000).take(10000):
         #print(inp[0].numpy())
         #print(tar[0].numpy())
         train_step(inp, tar)
 
-        count += 1
-        if count % 1000 == 0:
-            ckpt_save_path = ckpt_manager.save()
+        #count += 1
+        #if count % 1000 == 0:
+        #    ckpt_save_path = ckpt_manager.save()
+    ckpt_save_path = ckpt_manager.save()
 
 
 
 def train_model():
     model_printed = False
 
-    for epoch in range(EPOCHS):
+    print(len(train_dataset))
+    epoch = 0
+    for _ in range(EPOCHS):
         start = time.time()
 
         train_loss.reset_states()
@@ -599,6 +602,8 @@ def train_model():
         # inp -> portuguese, tar -> english
         #for e in train_dataset:
         #    print(e)
+        if (epoch * 10000) > len(train_dataset):
+            epoch = 0
         train_epoch(train_dataset, epoch)
         ckpt_save_path = ckpt_manager.save()
 
