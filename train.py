@@ -715,17 +715,13 @@ def translate(sentence, plot=''):
 
 train_model()
 
-translate("en familie hadde sin eiendom .")
-print ("Real translation: this is a problem we have to solve .")
+translate("en familie hadde sin eiendoom .")
 
-translate("Dette er tekst som ikke er i datasettet .")
-print ("Real translation: and my neighboring homes heard about this idea .")
+translate("Dette er tkst som ikke er i datasettet .")
 
 translate("musikk til slutt settek standarden .")
-print ("Real translation: so i 'll just share with you some stories very quickly of some magical things that have happened .")
 
-translate("este é o primeiro livro que eu fiz.", plot='decoder_layer4_block2')
-print ("Real translation: this is the first book i've ever done.")
+translate("Hvordan stavr jeg abonnemang .")
 
 
 
