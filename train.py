@@ -723,6 +723,8 @@ translate("musikk til slutt settek standarden .")
 
 translate("Hvordan stavr jeg abonnemang .")
 
+translate("jeg liker å spise mot og drikke vann .")
+
 
 
 #Epoch 4 Loss 1.5582 Accuracy 0.1535
