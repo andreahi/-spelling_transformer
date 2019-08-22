@@ -550,7 +550,7 @@ if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
     print ('Latest checkpoint restored!!')
 
-EPOCHS = 10000
+EPOCHS = 0
 
 
 @tf.function
@@ -724,6 +724,8 @@ translate("musikk til slutt settek standarden .")
 translate("Hvordan stavr jeg abonnemang .")
 
 translate("jeg liker å spise mot og drikke vann .")
+
+translate("Hvordan swapper jeg ?")
 
 
 
