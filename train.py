@@ -597,7 +597,7 @@ def train_epoch(train_dataset, epoch):
             train_loss.reset_states()
             train_accuracy.reset_states()
             start = time.time()
-            print("learning_rate: ", learning_rate(count))
+            print("learning_rate: ", tf.cast(learning_rate(count), tf.float32))
 
 
 
