@@ -491,7 +491,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 learning_rate = CustomSchedule(d_model)
 
-optimizer = tf.keras.optimizers.Adam(learning_rate)
+optimizer = tf.keras.optimizers.Adam(0.0001)
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
 
@@ -597,7 +597,7 @@ def train_epoch(train_dataset, epoch):
             train_loss.reset_states()
             train_accuracy.reset_states()
             start = time.time()
-            print("learning_rate: ", tf.cast(learning_rate(count), tf.float32))
+            #print("learning_rate: ", tf.cast(learning_rate(count), tf.float32))
 
 
 
