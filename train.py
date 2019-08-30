@@ -637,7 +637,7 @@ def evaluate(inp_sentence):
 
     # as the target is english, the first word to the transformer should be the
     # english start token.
-    decoder_input = [tokenizer_en.vocab_size + 1]
+    decoder_input = [tokenizer_en.vocab_size ]
     output = tf.expand_dims(decoder_input, 0)
 
     for i in range(MAX_LENGTH):
