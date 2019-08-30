@@ -728,6 +728,8 @@ translate("jeg liker å spise mot og drikke vann .")
 
 translate("Hvordan swapper jeg ?")
 
+translate("er en norsk jurist og forfatter .")
+
 
 
 #Epoch 4 Loss 1.5582 Accuracy 0.1535
