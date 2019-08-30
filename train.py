@@ -637,7 +637,7 @@ def evaluate(inp_sentence):
 
     # as the target is english, the first word to the transformer should be the
     # english start token.
-    decoder_input = [EN_MAX_WORDS]
+    decoder_input = [tokenizer_en.vocab_size + 1]
     output = tf.expand_dims(decoder_input, 0)
 
     for i in range(MAX_LENGTH):
@@ -658,7 +658,7 @@ def evaluate(inp_sentence):
         predicted_id = tf.cast(tf.argmax(predictions, axis=-1), tf.int32)
 
         # return the result if the predicted_id is equal to the end token
-        if tf.equal(predicted_id, EN_MAX_WORDS+1):
+        if tf.equal(predicted_id, tokenizer_en.vocab_size + 1):
             return tf.squeeze(output, axis=0), attention_weights
 
         # concatentate the predicted_id to the output which is given to the decoder
