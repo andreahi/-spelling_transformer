@@ -470,7 +470,7 @@ num_heads = 16
 
 input_vocab_size = len(tokenizer_pt.index_word) + 2
 target_vocab_size = EN_MAX_WORDS + 2
-dropout_rate = 0.001
+dropout_rate = 0.0001
 
 
 class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
@@ -550,7 +550,7 @@ if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
     print ('Latest checkpoint restored!!')
 
-EPOCHS = 0
+EPOCHS = 10
 
 
 @tf.function
