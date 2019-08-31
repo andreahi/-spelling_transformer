@@ -111,7 +111,7 @@ def encode(lang1, lang2):
     sequences2 = np.reshape(tokenizer_en.encode(lang2.numpy().decode("utf-8")), -1)
     lang2 = np.concatenate([[tokenizer_en.vocab_size], sequences2, [tokenizer_en.vocab_size + 1]])
     #print(len(lang1))
-    print(lang1)
+    #print(lang2)
     return lang1, lang2
 
 MAX_LENGTH = 70
@@ -553,7 +553,7 @@ if ckpt_manager.latest_checkpoint:
 EPOCHS = 1
 
 
-@tf.function
+#@tf.function
 def train_step(inp, tar):
     tar_inp = tar[:, :-1]
     tar_real = tar[:, 1:]
@@ -566,6 +566,7 @@ def train_step(inp, tar):
                                      enc_padding_mask,
                                      combined_mask,
                                      dec_padding_mask)
+        print(predictions)
         loss = loss_function(tar_real, predictions)
 
     gradients = tape.gradient(loss, transformer.trainable_variables)
