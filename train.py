@@ -632,6 +632,7 @@ def evaluate(inp_sentence):
                                    sequences1,
                                    np.reshape([len(tokenizer_pt.index_word) + 1], -1)])
 
+    print("encode(inp_sentence: ", encode(inp_sentence, inp_sentence))
     print("inp_sentence: ", inp_sentence)
     encoder_input = tf.expand_dims(inp_sentence, 0)
 
