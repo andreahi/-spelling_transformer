@@ -643,7 +643,7 @@ def evaluate(inp_sentence):
     for i in range(MAX_LENGTH):
         enc_padding_mask, combined_mask, dec_padding_mask = create_masks(
             encoder_input, output)
-
+        print(output)
         # predictions.shape == (batch_size, seq_len, vocab_size)
         predictions, attention_weights = transformer(encoder_input,
                                                      output,
