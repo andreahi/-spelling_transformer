@@ -632,13 +632,12 @@ def evaluate(inp_sentence):
                                    sequences1,
                                    np.reshape([len(tokenizer_pt.index_word) + 1], -1)])
 
-    print("encode(inp_sentence: ", encode(inp_sentence, inp_sentence))
     print("inp_sentence: ", inp_sentence)
-    encoder_input = tf.expand_dims(inp_sentence, 0)
+    encoder_input = inp_sentence#tf.expand_dims(inp_sentence, 0)
 
     # as the target is english, the first word to the transformer should be the
     # english start token.
-    decoder_input = [tokenizer_en.vocab_size ]
+    decoder_input = [tokenizer_en.vocab_size]
     output = tf.expand_dims(decoder_input, 0)
 
     for i in range(MAX_LENGTH):
