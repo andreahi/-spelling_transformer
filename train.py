@@ -566,7 +566,7 @@ def train_step(inp, tar):
                                      enc_padding_mask,
                                      combined_mask,
                                      dec_padding_mask)
-        print(predictions)
+        #print(predictions)
         loss = loss_function(tar_real, predictions)
 
     gradients = tape.gradient(loss, transformer.trainable_variables)
