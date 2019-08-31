@@ -550,7 +550,7 @@ if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
     print ('Latest checkpoint restored!!')
 
-EPOCHS = 1
+EPOCHS = 0
 
 
 #@tf.function
@@ -644,7 +644,7 @@ def evaluate(inp_sentence):
     for i in range(20):
         enc_padding_mask, combined_mask, dec_padding_mask = create_masks(
             encoder_input, output)
-        print(output)
+        print("output: ", output)
         # predictions.shape == (batch_size, seq_len, vocab_size)
         predictions, attention_weights = transformer(encoder_input,
                                                      output,
