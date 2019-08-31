@@ -718,7 +718,7 @@ def translate(sentence, plot=''):
 
 train_model()
 
-translate("en familie hadde sin eiendoom .")
+translate("enfamiliehaddesineiendoom .")
 
 translate("Dette er tkst som ikke er i datasettet .")
 
