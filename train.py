@@ -111,7 +111,7 @@ def encode(lang1, lang2):
     sequences2 = np.reshape(tokenizer_en.encode(lang2.numpy().decode("utf-8")), -1)
     lang2 = np.concatenate([[tokenizer_en.vocab_size], sequences2, [tokenizer_en.vocab_size + 1]])
     #print(len(lang1))
-    #print(lang2)
+    print(lang1)
     return lang1, lang2
 
 MAX_LENGTH = 70
