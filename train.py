@@ -634,7 +634,7 @@ def evaluate(inp_sentence):
                                    np.reshape([len(tokenizer_pt.index_word) + 1], -1)])
 
     encoder_input = tf.expand_dims(inp_sentence, 0)
-    print("inp_sentence: ", encoder_input)
+    #print("inp_sentence: ", encoder_input)
 
     # as the target is english, the first word to the transformer should be the
     # english start token.
@@ -656,7 +656,7 @@ def evaluate(inp_sentence):
 
         # select the last word from the seq_len dimension
         predictions = predictions[: ,-1:, :]  # (batch_size, 1, vocab_size)
-        print("predictions: ", predictions)
+        #print("predictions: ", predictions)
         predicted_id = tf.cast(tf.argmax(predictions, axis=-1), tf.int32)
 
         # return the result if the predicted_id is equal to the end token
