@@ -400,7 +400,7 @@ class Decoder(tf.keras.layers.Layer):
         self.num_layers = num_layers
 
         self.embedding = tf.keras.layers.Embedding(target_vocab_size, d_model)
-        self.pos_encoding = positional_encoding(MAX_LENGTH, self.d_model)
+        self.pos_encoding = positional_encoding(20, self.d_model)
 
         self.dec_layers = [DecoderLayer(d_model, num_heads, dff, rate)
                            for _ in range(num_layers)]
@@ -550,7 +550,7 @@ if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
     print ('Latest checkpoint restored!!')
 
-EPOCHS = 0
+EPOCHS = 1
 
 
 @tf.function
@@ -640,7 +640,7 @@ def evaluate(inp_sentence):
     decoder_input = [tokenizer_en.vocab_size]
     output = tf.expand_dims(decoder_input, 0)
 
-    for i in range(MAX_LENGTH):
+    for i in range(20):
         enc_padding_mask, combined_mask, dec_padding_mask = create_masks(
             encoder_input, output)
         print(output)
