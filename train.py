@@ -704,12 +704,13 @@ def plot_attention_weights(attention, sentence, result, layer):
     plt.show()
 
 
-def translate(sentence, plot=''):
+def translate(sentence, plot='', silent=False):
     result, attention_weights = evaluate(sentence)
 
     predicted_sentence = tokenizer_en.decode([i.numpy() for i in result
                                                            if i < EN_MAX_WORDS])
-
+    if silent:
+        return sentence
     print('Input: {}'.format(sentence))
     print('Predicted translation: {}'.format(predicted_sentence))
 
@@ -732,7 +733,10 @@ translate("Hvordan swapper jeg ?")
 
 translate("er en norsk jurist og forfatter .")
 
-
+with open('data/your_file.txt') as f:
+    for line in f:
+        translated = translate(line.strip(), silent=True)
+        print(translated)
 
 #Epoch 4 Loss 1.5582 Accuracy 0.1535
 #Time taken for 1 epoch: 834.0642580986023 secs
