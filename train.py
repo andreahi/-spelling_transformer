@@ -735,8 +735,11 @@ translate("er en norsk jurist og forfatter .")
 
 with open('data/your_file.txt') as f:
     for line in f:
-        translated = translate(line.strip(), silent=True)
-        print(translated)
+        if len(line) < MAX_LENGTH:
+            translated = translate(line.strip(), silent=True)
+            print(translated)
+        else:
+            print(line.strip())
 
 #Epoch 4 Loss 1.5582 Accuracy 0.1535
 #Time taken for 1 epoch: 834.0642580986023 secs
