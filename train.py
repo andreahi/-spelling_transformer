@@ -710,7 +710,7 @@ def translate(sentence, plot='', silent=False):
     predicted_sentence = tokenizer_en.decode([i.numpy() for i in result
                                                            if i < EN_MAX_WORDS])
     if silent:
-        return sentence
+        return predicted_sentence
     print('Input: {}'.format(sentence))
     print('Predicted translation: {}'.format(predicted_sentence))
 
@@ -736,7 +736,9 @@ translate("er en norsk jurist og forfatter .")
 with open('data/your_file.txt') as f:
     for line in f:
         if len(line) < MAX_LENGTH:
-            translated = translate(line.strip(), silent=True)
+            translated = ''
+            for e in line.split('. '):
+                translated += translate(line.strip(), silent=True)
             print(translated)
         else:
             print(line.strip())
