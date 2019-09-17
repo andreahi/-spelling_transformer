@@ -491,7 +491,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 learning_rate = CustomSchedule(d_model)
 
-optimizer = tf.keras.optimizers.Adam(0.000001)
+optimizer = tf.keras.optimizers.Adam(0.0001)
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
 
@@ -550,7 +550,7 @@ if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
     print ('Latest checkpoint restored!!')
 
-EPOCHS = 10
+EPOCHS = 0
 
 
 @tf.function
@@ -748,3 +748,6 @@ with open('data/your_file.txt') as f:
 
 #Epoch 18 Loss 1.0581 Accuracy 0.1935
 #Time taken for 1 epoch: 13206.124362945557 secs
+
+#Epoch 1 Loss 0.0070 Accuracy 0.5904
+#Time taken for 1 epoch: 272.60132026672363 secs
