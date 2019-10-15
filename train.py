@@ -358,7 +358,7 @@ class DecoderLayer(tf.keras.layers.Layer):
 
 
 class Encoder(tf.keras.layers.Layer):
-    def __init__(self, num_layers, d_model, num_heads, dff, input_vocab_size,
+    def __init__(self,  num_layers, d_model, num_heads, dff, input_vocab_size,
                  rate=0.1):
         super(Encoder, self).__init__()
 
@@ -460,7 +460,7 @@ class Transformer(tf.keras.Model):
 
 
 #model parameters
-num_layers = 8
+num_layers = 12
 d_model = 512
 dff = 2048
 num_heads = 16
