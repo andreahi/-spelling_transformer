@@ -491,7 +491,7 @@ class CustomSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
 
 learning_rate = CustomSchedule(d_model)
 
-optimizer = tf.keras.optimizers.Adam(0.0001)
+optimizer = tf.keras.optimizers.Adam(0.001)
 
 temp_learning_rate_schedule = CustomSchedule(d_model)
 
@@ -751,3 +751,7 @@ with open('data/your_file.txt') as f:
 
 #Epoch 1 Loss 0.0070 Accuracy 0.5904
 #Time taken for 1 epoch: 272.60132026672363 secs
+
+#batch count:  107000
+#Epoch 1 Loss 0.0323 Accuracy 0.7123
+# Time taken for 1 epoch: 284.92683458328247 secs
